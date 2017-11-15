@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
 
     <PackageId>Cofoundry.Plugins.Mail.SendGrid</PackageId>
     <Description>Cofoundry mail service implemention for SendGrid.</Description>
@@ -16,8 +16,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cofoundry.Core" Version="0.2.0-beta0022" />
-    <PackageReference Include="Sendgrid" Version="9.5.1" />
+    <PackageReference Include="Cofoundry.Core" Version="0.2.0-beta0054" />
+    <PackageReference Include="Sendgrid" Version="9.9.0" />
   </ItemGroup>
 
 </Project>
