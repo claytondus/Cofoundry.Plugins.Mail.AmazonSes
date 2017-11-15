@@ -16,7 +16,6 @@ namespace Cofoundry.Plugins.Mail.SendGrid
         private readonly SendGridSettings _sendGridSettings;
         private readonly SendGridClient _sendGridClient;
         private readonly DebugMailDispatchSession _debugMailDispatchSession;
-        private readonly IPathResolver _pathResolver;
 
         public SendGridMailDispatchSession(
             Core.Mail.MailSettings mailSettings,

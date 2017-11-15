@@ -7,7 +7,7 @@
     <RepositoryUrl>https://github.com/cofoundry-cms/Cofoundry.Plugins.Mail.MailKit/</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageVersion>$(NuGetVersion)</PackageVersion>
-    <Version>$(AssemblyVersion)</Version>
+    <Version>0.1.0-ci0002</Version>
     <FileVersion>$(FileVersion)</FileVersion>
     <InformationalVersion>$(InformationalVersion)</InformationalVersion>
     <Copyright>$(Copyright)</Copyright>
