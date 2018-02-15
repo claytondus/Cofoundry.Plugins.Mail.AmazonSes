@@ -15,7 +15,7 @@ namespace Cofoundry.Plugins.Mail.SendGrid
             var overrideOptions = RegistrationOptions.Override();
 
             container
-                .RegisterType<IMailDispatchService, SendGridMailDispatchService>(overrideOptions)
+                .Register<IMailDispatchService, SendGridMailDispatchService>(overrideOptions)
                 ;
         }
     }
