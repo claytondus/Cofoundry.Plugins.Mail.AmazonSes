@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cofoundry.Core" Version="0.2.0-beta0098" />
+    <PackageReference Include="Cofoundry.Core" Version="0.2.0" />
     <PackageReference Include="Sendgrid" Version="9.9.0" />
   </ItemGroup>
 
