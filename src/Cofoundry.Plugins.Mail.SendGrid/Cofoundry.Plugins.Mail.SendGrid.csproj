@@ -11,12 +11,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard1.6\Cofoundry.Plugins.Mail.SendGrid.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\Cofoundry.Plugins.Mail.SendGrid.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cofoundry.Core" Version="0.5.0" />
+    <PackageReference Include="Cofoundry.Core" Version="0.6.0" />
     <PackageReference Include="Sendgrid" Version="9.10.0" />
   </ItemGroup>
 
