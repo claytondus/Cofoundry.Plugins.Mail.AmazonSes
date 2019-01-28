@@ -1,30 +1,30 @@
 ﻿using Cofoundry.Core;
 using Cofoundry.Core.Mail;
-using SendGrid;
-using SendGrid.Helpers.Mail;
+using AmazonSes;
+using AmazonSes.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cofoundry.Plugins.Mail.SendGrid
+namespace Cofoundry.Plugins.Mail.AmazonSes
 {
-    public class SendGridMailDispatchSession : IMailDispatchSession
+    public class AmazonSesMailDispatchSession : IMailDispatchSession
     {
-        private readonly Queue<SendGridMessage> _mailQueue = new Queue<SendGridMessage>();
+        private readonly Queue<AmazonSesMessage> _mailQueue = new Queue<AmazonSesMessage>();
         private readonly Core.Mail.MailSettings _mailSettings;
-        private readonly SendGridSettings _sendGridSettings;
-        private readonly SendGridClient _sendGridClient;
+        private readonly AmazonSesSettings _AmazonSesSettings;
+        private readonly AmazonSesClient _AmazonSesClient;
         private readonly DebugMailDispatchSession _debugMailDispatchSession;
 
-        public SendGridMailDispatchSession(
+        public AmazonSesMailDispatchSession(
             Core.Mail.MailSettings mailSettings,
-            SendGridSettings sendGridSettings,
+            AmazonSesSettings AmazonSesSettings,
             IPathResolver pathResolver
             )
         {
             _mailSettings = mailSettings;
-            _sendGridSettings = sendGridSettings;
+            _AmazonSesSettings = AmazonSesSettings;
 
             if (_mailSettings.SendMode == MailSendMode.LocalDrop)
             {
@@ -32,7 +32,7 @@ namespace Cofoundry.Plugins.Mail.SendGrid
             }
             else
             {
-                _sendGridClient = new SendGridClient(_sendGridSettings.ApiKey);
+                _AmazonSesClient = new AmazonSesClient(_AmazonSesSettings.ApiKey);
             }
         }
 
@@ -55,7 +55,7 @@ namespace Cofoundry.Plugins.Mail.SendGrid
                 var mailItem = _mailQueue.Dequeue();
                 if (mailItem != null && _mailSettings.SendMode != MailSendMode.DoNotSend)
                 {
-                    await _sendGridClient.SendEmailAsync(mailItem);
+                    await _AmazonSesClient.SendEmailAsync(mailItem);
                 }
             }
         }
@@ -68,11 +68,11 @@ namespace Cofoundry.Plugins.Mail.SendGrid
             }
         }
 
-        private SendGridMessage FormatMessage(MailMessage message)
+        private AmazonSesMessage FormatMessage(MailMessage message)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
 
-            var messageToSend = new SendGridMessage();
+            var messageToSend = new AmazonSesMessage();
 
             var toAddress = GetMailToAddress(message);
             messageToSend.AddTo(toAddress);
@@ -111,7 +111,7 @@ namespace Cofoundry.Plugins.Mail.SendGrid
 
         private EmailAddress CreateMailAddress(string email, string displayName)
         {
-            // In other libraries we catch validation exceptions here, but SendGrid does not throw any so it is ommited
+            // In other libraries we catch validation exceptions here, but AmazonSes does not throw any so it is ommited
             if (string.IsNullOrEmpty(displayName))
             {
                 return new EmailAddress(email);
@@ -120,7 +120,7 @@ namespace Cofoundry.Plugins.Mail.SendGrid
             return new EmailAddress(email, displayName);
         }
 
-        private void SetMessageBody(SendGridMessage message, string bodyHtml, string bodyText)
+        private void SetMessageBody(AmazonSesMessage message, string bodyHtml, string bodyText)
         {
             var hasHtmlBody = !string.IsNullOrWhiteSpace(bodyHtml);
             var hasTextBody = !string.IsNullOrWhiteSpace(bodyText);

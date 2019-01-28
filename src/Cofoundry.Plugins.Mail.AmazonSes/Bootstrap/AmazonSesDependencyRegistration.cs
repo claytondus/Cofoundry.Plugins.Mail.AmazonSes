@@ -4,18 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cofoundry.Plugins.Mail.SendGrid
+namespace Cofoundry.Plugins.Mail.AmazonSes
 {
-    public class SendGridDependencyRegistration : IDependencyRegistration
+    public class AmazonSesDependencyRegistration : IDependencyRegistration
     {
         public void Register(IContainerRegister container)
         {
-            if (container.Configuration.GetValue<bool>("Cofoundry:Plugins:SendGrid:Disabled")) return;
+            if (container.Configuration.GetValue<bool>("Cofoundry:Plugins:AmazonSes:Disabled")) return;
 
             var overrideOptions = RegistrationOptions.Override();
 
             container
-                .Register<IMailDispatchService, SendGridMailDispatchService>(overrideOptions)
+                .Register<IMailDispatchService, AmazonSesMailDispatchService>(overrideOptions)
                 ;
         }
     }

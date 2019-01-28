@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cofoundry.Plugins.Mail.SendGrid
+namespace Cofoundry.Plugins.Mail.AmazonSes
 {
     public class SendGridMailDispatchService : IMailDispatchService
     {
