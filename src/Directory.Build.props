@@ -1,13 +1,13 @@
 ﻿<Project>
   <PropertyGroup>
-    <Authors>Cofoundry</Authors>
+    <Authors>Clayton Davis, Cofoundry</Authors>
     <PackageIconUrl>https://www.cofoundry.org/Content/images/external/logo-nuget-64x64.png</PackageIconUrl>
-    <PackageLicenseUrl>https://github.com/cofoundry-cms/Cofoundry.Plugins.Mail.MailKit/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/claytondus/Cofoundry.Plugins.Mail.AmazonSes/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://www.cofoundry.org</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/cofoundry-cms/Cofoundry.Plugins.Mail.MailKit/</RepositoryUrl>
+    <RepositoryUrl>https://github.com/claytondus/Cofoundry.Plugins.Mail.AmazonSes/</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageVersion>$(NuGetVersion)</PackageVersion>
-    <Version>0.1.0-ci0002</Version>
+    <Version>0.1.0</Version>
     <FileVersion>$(FileVersion)</FileVersion>
     <InformationalVersion>$(InformationalVersion)</InformationalVersion>
     <Copyright>$(Copyright)</Copyright>

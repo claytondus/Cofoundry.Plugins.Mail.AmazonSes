@@ -13,13 +13,13 @@ namespace Cofoundry.Plugins.Mail.AmazonSes
     public class AmazonSesMailDispatchSession : IMailDispatchSession
     {
         private readonly Queue<SendEmailRequest> _mailQueue = new Queue<SendEmailRequest>();
-        private readonly Core.Mail.MailSettings _mailSettings;
+        private readonly MailSettings _mailSettings;
         private readonly AmazonSesSettings _AmazonSesSettings;
         private readonly AmazonSimpleEmailServiceClient _AmazonSesClient;
         private readonly DebugMailDispatchSession _debugMailDispatchSession;
 
         public AmazonSesMailDispatchSession(
-            Core.Mail.MailSettings mailSettings,
+            MailSettings mailSettings,
             AmazonSesSettings AmazonSesSettings,
             IPathResolver pathResolver
             )

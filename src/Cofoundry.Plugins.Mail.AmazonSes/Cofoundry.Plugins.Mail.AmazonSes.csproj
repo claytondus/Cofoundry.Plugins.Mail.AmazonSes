@@ -3,15 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 
-    <PackageId>Cofoundry.Plugins.Mail.AmazonSes</PackageId>
+    <PackageId>Claytondus.Cofoundry.Plugins.Mail.AmazonSes</PackageId>
     <Description>Cofoundry mail service implemention for Amazon Simple Mail Service (SES).</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright © Cofoundry.org</Copyright>
-    <PackageTags>Cofoundry Core</PackageTags>
+    <Copyright>Copyright © Clayton Davis, Cofoundry.org</Copyright>
+    <PackageTags>Cofoundry AmazonSES</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\Cofoundry.Plugins.Mail.AmazonSes.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\Claytondus.Cofoundry.Plugins.AmazonSes.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
 
