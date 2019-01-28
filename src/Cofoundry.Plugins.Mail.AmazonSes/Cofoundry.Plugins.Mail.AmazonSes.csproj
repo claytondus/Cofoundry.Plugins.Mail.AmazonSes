@@ -3,21 +3,21 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 
-    <PackageId>Cofoundry.Plugins.Mail.SendGrid</PackageId>
-    <Description>Cofoundry mail service implemention for SendGrid.</Description>
+    <PackageId>Cofoundry.Plugins.Mail.AmazonSes</PackageId>
+    <Description>Cofoundry mail service implemention for Amazon Simple Mail Service (SES).</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Copyright>Copyright © Cofoundry.org</Copyright>
     <PackageTags>Cofoundry Core</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\Cofoundry.Plugins.Mail.SendGrid.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\Cofoundry.Plugins.Mail.AmazonSes.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Cofoundry.Core" Version="0.6.0" />
-    <PackageReference Include="Sendgrid" Version="9.10.0" />
+    <PackageReference Include="AWSSDK.SimpleEmail" Version="3.3.7.18" />
   </ItemGroup>
 
 </Project>

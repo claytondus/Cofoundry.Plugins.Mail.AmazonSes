@@ -102,3 +102,5 @@ src/.vs
 # Cake Build
 /tools
 /artifacts
+
+.idea

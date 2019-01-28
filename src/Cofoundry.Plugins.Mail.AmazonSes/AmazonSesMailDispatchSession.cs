@@ -1,20 +1,21 @@
 ﻿using Cofoundry.Core;
 using Cofoundry.Core.Mail;
-using AmazonSes;
-using AmazonSes.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Amazon;
+using Amazon.SimpleEmail;
+using Amazon.SimpleEmail.Model;
 
 namespace Cofoundry.Plugins.Mail.AmazonSes
 {
     public class AmazonSesMailDispatchSession : IMailDispatchSession
     {
-        private readonly Queue<AmazonSesMessage> _mailQueue = new Queue<AmazonSesMessage>();
+        private readonly Queue<SendEmailRequest> _mailQueue = new Queue<SendEmailRequest>();
         private readonly Core.Mail.MailSettings _mailSettings;
         private readonly AmazonSesSettings _AmazonSesSettings;
-        private readonly AmazonSesClient _AmazonSesClient;
+        private readonly AmazonSimpleEmailServiceClient _AmazonSesClient;
         private readonly DebugMailDispatchSession _debugMailDispatchSession;
 
         public AmazonSesMailDispatchSession(
@@ -32,7 +33,9 @@ namespace Cofoundry.Plugins.Mail.AmazonSes
             }
             else
             {
-                _AmazonSesClient = new AmazonSesClient(_AmazonSesSettings.ApiKey);
+                _AmazonSesClient = new AmazonSimpleEmailServiceClient(_AmazonSesSettings.AccessKey,
+                    _AmazonSesSettings.SecretKey,
+                    RegionEndpoint.GetBySystemName(_AmazonSesSettings.AwsRegion));
             }
         }
 
@@ -68,69 +71,69 @@ namespace Cofoundry.Plugins.Mail.AmazonSes
             }
         }
 
-        private AmazonSesMessage FormatMessage(MailMessage message)
+        private SendEmailRequest FormatMessage(MailMessage message)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
 
-            var messageToSend = new AmazonSesMessage();
+            var messageToSend = new SendEmailRequest();
 
-            var toAddress = GetMailToAddress(message);
-            messageToSend.AddTo(toAddress);
-            messageToSend.Subject = message.Subject;
+            messageToSend.Destination = GetDestination(message);
+            messageToSend.Message = new Message();
             if (message.From != null)
             {
-                messageToSend.SetFrom(CreateMailAddress(message.From.Address, message.From.DisplayName));
+                messageToSend.Source = $"{message.From.DisplayName} <{message.From.Address}>";
             }
             else
             {
-                messageToSend.SetFrom(CreateMailAddress(_mailSettings.DefaultFromAddress, _mailSettings.DefaultFromAddressDisplayName));
+                messageToSend.Source = $"{_mailSettings.DefaultFromAddressDisplayName} <{_mailSettings.DefaultFromAddress}>";
             }
 
-            SetMessageBody(messageToSend, message.HtmlBody, message.TextBody);
+            messageToSend.Message = GetMessage(message.HtmlBody, message.TextBody, message.Subject);
 
             return messageToSend;
         }
 
-        private EmailAddress GetMailToAddress(MailMessage message)
+        private Destination GetDestination(MailMessage message)
         {
-            EmailAddress toAddress;
+            var destination = new Destination();
+            destination.ToAddresses = new List<string>();
             if (_mailSettings.SendMode == MailSendMode.SendToDebugAddress)
             {
                 if (string.IsNullOrEmpty(_mailSettings.DebugEmailAddress))
                 {
                     throw new Exception("MailSendMode.SendToDebugAddress requested but Cofoundry:Mail:DebugEmailAddress setting is not defined.");
                 }
-                toAddress = CreateMailAddress(_mailSettings.DebugEmailAddress, message.To.DisplayName);
+                destination.ToAddresses.Add($"{message.To.DisplayName} <{_mailSettings.DebugEmailAddress}>");
             }
             else
             {
-                toAddress = new EmailAddress(message.To.Address, message.To.DisplayName);
+                destination.ToAddresses.Add($"{message.To.DisplayName} <{message.To.Address}>");
             }
-            return toAddress;
+            return destination;
         }
 
-        private EmailAddress CreateMailAddress(string email, string displayName)
-        {
-            // In other libraries we catch validation exceptions here, but AmazonSes does not throw any so it is ommited
-            if (string.IsNullOrEmpty(displayName))
-            {
-                return new EmailAddress(email);
-            }
-
-            return new EmailAddress(email, displayName);
-        }
-
-        private void SetMessageBody(AmazonSesMessage message, string bodyHtml, string bodyText)
+        private Message GetMessage(string bodyHtml, string bodyText, string subject)
         {
             var hasHtmlBody = !string.IsNullOrWhiteSpace(bodyHtml);
             var hasTextBody = !string.IsNullOrWhiteSpace(bodyText);
+            var hasSubject = !string.IsNullOrWhiteSpace(subject);
             if (!hasHtmlBody && !hasTextBody)
             {
-                throw new ArgumentException("An email must have either a html or text body");
+                throw new ArgumentException("An email must have either a html or text body and a subject");
             }
 
-            message.HtmlContent = bodyHtml;
-            message.PlainTextContent = bodyText;
+            return new Message
+            {
+                Subject = new Content
+                {
+                    Data = subject
+                },
+                Body = new Body
+                {
+                    Html = new Content(bodyHtml),
+                    Text = new Content(bodyText)
+                }
+            };
         }
     }
 }

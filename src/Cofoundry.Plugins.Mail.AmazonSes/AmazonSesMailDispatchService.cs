@@ -7,26 +7,26 @@ using System.Threading.Tasks;
 
 namespace Cofoundry.Plugins.Mail.AmazonSes
 {
-    public class SendGridMailDispatchService : IMailDispatchService
+    public class AmazonSesMailDispatchService : IMailDispatchService
     {
         private readonly MailSettings _mailSettings;
-        private readonly SendGridSettings _sendGridSettings;
+        private readonly AmazonSesSettings _sesSettings;
         private readonly IPathResolver _pathResolver;
 
-        public SendGridMailDispatchService(
+        public AmazonSesMailDispatchService(
             MailSettings mailSettings,
-            SendGridSettings sendGridSettings,
+            AmazonSesSettings sesSettings,
             IPathResolver pathResolver
             )
         {
             _mailSettings = mailSettings;
-            _sendGridSettings = sendGridSettings;
+            _sesSettings = sesSettings;
             _pathResolver = pathResolver;
         }
 
         public IMailDispatchSession CreateSession()
         {
-            return new SendGridMailDispatchSession(_mailSettings, _sendGridSettings, _pathResolver);
+            return new AmazonSesMailDispatchSession(_mailSettings, _sesSettings, _pathResolver);
         }
 
         public async Task DispatchAsync(MailMessage message)
